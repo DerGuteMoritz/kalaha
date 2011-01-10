@@ -148,15 +148,23 @@
                         (pit-next npit)))))
 
       (cond ((zero? count)
-             (let ((prev (pit-prev npit)))
-               (and (kalaha? prev) 
-                    (eq? player (pit-owner prev)))))
+             (let* ((prev (pit-prev npit))
+                    (player-owns? (eq? player (pit-owner prev))))
+               
+               (when player-owns?
+                 (let ((opposite-pit (pit-opposite prev)))
+                   (when (and opposite-pit
+                              (= 1 (pit-count prev))
+                              (> (pit-count opposite-pit) 0))
+                     (set! (pit-highlight opposite-pit) #t)
+                     (inc! (pit-count kalaha) (add1 (pit-count opposite-pit)))
+                     (set! (pit-count opposite-pit) 0)
+                     (set! (pit-count prev) 0)
+                     (redraw)
+                     (thread-sleep! .5))))
+               
+               (and player-owns? (kalaha? prev))))
             ((eq? (pit-owner npit) player)
-             (let ((opposite-pit (pit-opposite npit)))
-               (when (and opposite-pit (zero? (pit-count npit)))
-                 (set! (pit-highlight opposite-pit) #t)
-                 (inc! (pit-count kalaha) (pit-count opposite-pit))
-                 (set! (pit-count opposite-pit) 0)))
              (next #t))
             ((kalaha? npit)
              (next #f))
