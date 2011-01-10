@@ -1,0 +1,2 @@
+(compile -o kalaha -O2 -d1 kalaha.scm)
+(install-program 'kalaha '("kalaha") '((version "0.0.1")))

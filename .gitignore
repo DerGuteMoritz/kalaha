@@ -1,0 +1,5 @@
+.svn
+*.c
+*.o
+*.so
+*.import.*
