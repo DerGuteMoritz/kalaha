@@ -210,10 +210,18 @@
 (define (refocus-player!)
   (set-focus! (find-pit 'player kalaha-opponent pit-next)))
 
+(define (read-remote-turn)
+  (let* ((line (read-line remote-in))
+         (_ (when (eof-object? line)
+              (fprintf (current-error-port) "~A has left the game~%" opponent-name)
+              (exit 1)))
+         (name (string->number line)))
+    (find (lambda (pit) 
+            (eq? (pit-name pit) name))
+          pits-opponent)))
+
 (define (wait-for-remote-opponent-turn)
-  (let* ((name (string->number (read-line remote-in)))
-         (pit (find (lambda (pit) (eq? (pit-name pit) name)) 
-                    pits-opponent)))
+  (let* ((pit (read-remote-turn)))
     (set-focus! pit)
     (make-turn 'opponent kalaha-opponent pit)))
 
