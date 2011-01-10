@@ -304,7 +304,8 @@
 
 (let loop ()
   (redraw)
-  
+  (flushinp)
+
   (cond ((game-over?)
          (redraw)
          (select (get-char)
