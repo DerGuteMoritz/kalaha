@@ -1,4 +1,5 @@
 ((license "BSD")
  (needs ncurses mojo miscmacros matchable coops)
  (author "Moritz Heidkamp")
- (synopsis "An implementation of the board game Kalah"))
+ (synopsis "An implementation of the board game Kalah")
+ (category misc))
