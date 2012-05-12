@@ -173,7 +173,7 @@
 (define (make-random-opponent-turn)
   (let ((opp (filter (lambda (p) (> (pit-count p) 0)) pits-opponent)))
     (unless (null? opp)
-      (let ((pit (car (shuffle opp random))))
+      (let ((pit (list-ref opp (random (length opp)))))
         (set-focus! pit)
         (make-turn 'opponent kalaha-opponent pit)))))
 
